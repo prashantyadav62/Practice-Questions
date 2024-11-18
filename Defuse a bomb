@@ -1,0 +1,22 @@
+class Solution:
+    def decrypt(self, code: List[int], k: int) -> List[int]:
+        n = len(code)
+    
+    # If k is zero, return an array of zeros
+        if k == 0:
+            return [0] * n
+    
+    # Create a result array to store the decrypted values
+        result = [0] * n
+    
+    # Process based on the value of k
+        if k > 0:
+            for i in range(n):
+            # Sum the next k numbers (circular array)
+                result[i] = sum(code[(i + j) % n] for j in range(1, k + 1))
+        else:
+            for i in range(n):
+            # Sum the previous k numbers (circular array)
+                result[i] = sum(code[(i - j) % n] for j in range(1, -k + 1))
+    
+        return result
