@@ -1,0 +1,15 @@
+class Solution:
+    def maxChunksToSorted(self, arr: List[int]) -> int:
+        # Initialize the variables
+        max_so_far = 0  # Tracks the maximum value encountered so far in the array
+        chunks = 0  # Counts the number of chunks
+
+        # Iterate through the array
+        for i, num in enumerate(arr):
+            max_so_far = max(max_so_far, num)  # Update the maximum value so far
+
+            # If the max_so_far matches the index, we can make a chunk
+            if max_so_far == i:
+                chunks += 1
+
+        return chunks
