@@ -1,0 +1,33 @@
+class Solution:
+    def maxKDivisibleComponents(self, n: int, edges: List[List[int]], values: List[int], k: int) -> int:
+        # Build the adjacency list representation of the tree
+        graph = [[] for _ in range(n)]
+        for a, b in edges:
+            graph[a].append(b)
+            graph[b].append(a)
+
+        def dfs(node, parent):
+            """Perform a DFS to calculate subtree sums and find valid splits."""
+            # Start with the current node's value
+            subtree_sum = values[node]
+            # Traverse all neighbors
+            for neighbor in graph[node]:
+                if neighbor != parent:  # Avoid revisiting the parent
+                    child_sum = dfs(neighbor, node)
+                    # If the child's subtree sum is divisible by k, we count a new component
+                    if child_sum % k == 0:
+                        self.components += 1
+                    else:
+                        # Otherwise, include it in the current subtree's sum
+                        subtree_sum += child_sum
+            return subtree_sum
+
+        # Initialize the component counter
+        self.components = 0
+        # Perform DFS starting from the root (node 0)
+        total_sum = dfs(0, -1)
+        # If the total sum of the tree is divisible by k, we can count the root as a component
+        if total_sum % k == 0:
+            self.components += 1
+
+        return self.components
